@@ -10,20 +10,19 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     _homePageViewModel = Get.put(HomePageViewModel());
     double width = MediaQuery.of(context).size.width;
-
     return Scaffold(
       body: SafeArea(
         child: Column(
           children: [
-            Expanded(flex: 1, child: _buildContainer(width)),
-            Expanded(flex: 4, child: Text('Deneme')),
+            Expanded(flex: 2, child: _buildTopContainer(width)),
+            Expanded(flex: 7, child: Text('Deneme')),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildContainer(double width) {
+  Widget _buildTopContainer(double width) {
     return Container(
       width: width,
       decoration: BoxDecoration(
@@ -46,14 +45,70 @@ class HomePage extends StatelessWidget {
 
   Widget _buildCategory() {
     return Container(
-      height: 70,
+      height: 80,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         shrinkWrap: false,
-        itemCount: 100,
+        itemCount: _homePageViewModel.categoryList.length,
         itemBuilder: (BuildContext context, int index) {
-          return Text(index.toString());
+          return Padding(
+            padding: EdgeInsets.only(top: 5),
+            child: _buildCategoryList(index),
+          );
         },
+      ),
+    );
+  }
+
+  Widget _buildCategoryList(int index) {
+    return Obx(
+      () => GestureDetector(
+        onTap: () {
+          _homePageViewModel.categoryIndex.value = index;
+          //Servise gidilip refresh edilecek kısım
+        },
+        child: Row(
+          children: [
+            Column(
+              children: [
+                index == 0
+                    ? AnimatedContainer(
+                        duration: Duration(milliseconds: 200),
+                        width: 50,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          border: _homePageViewModel.categoryIndex.value == index ? Border.all(color: Colors.green, width: 2) : Border.all(color: Colors.white),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.wifi_tethering,
+                          color: Colors.white,
+                          size: 40,
+                        ),
+                      )
+                    : AnimatedContainer(
+                        duration: Duration(milliseconds: 200),
+                        width: 50,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          border: _homePageViewModel.categoryIndex.value == index ? Border.all(color: Colors.green, width: 2) : Border.all(color: Colors.white),
+                          shape: BoxShape.circle,
+                          image: DecorationImage(image: AssetImage(_homePageViewModel.categoryList[index].image), fit: BoxFit.fill),
+                        ),
+                      ),
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  _homePageViewModel.categoryList[index].title,
+                )
+              ],
+            ),
+            SizedBox(
+              width: 15,
+            )
+          ],
+        ),
       ),
     );
   }
@@ -64,6 +119,7 @@ class HomePage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(_title),
+        SizedBox(height: 5),
         Text(_homePageViewModel.getDateTime()),
       ],
     );
