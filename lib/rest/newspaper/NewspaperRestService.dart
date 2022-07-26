@@ -15,11 +15,18 @@ class NewspaperRestService implements INewspaperRestService {
   }
 
   @override
-  getNews(NewspaperRequest newspaperRequest, int index) async {
+  getCategoryNews(NewspaperRequest newspaperRequest, int index) async {
     String country = newspaperRequest.country!;
-
     String apiKey = _apiKey!;
     NewspaperResponse newspaperResponse = NewspaperResponse.fromJson(await RestServiceManager.call(_apiUrl!, "/top-headlines?country=$country&apiKey=$apiKey&category=${CategoryEnum.values[index - 1].name}", null, RequestType.GET));
+    return newspaperResponse;
+  }
+
+  @override
+  getNews(NewspaperRequest newspaperRequest) async {
+    String country = newspaperRequest.country!;
+    String apiKey = _apiKey!;
+    NewspaperResponse newspaperResponse = NewspaperResponse.fromJson(await RestServiceManager.call(_apiUrl!, "/top-headlines?country=$country&apiKey=$apiKey", null, RequestType.GET));
     return newspaperResponse;
   }
 }

@@ -2,5 +2,6 @@ import 'package:newspaper_app/models/rest/request/newspaper/NewspaperRequest.dar
 import 'package:newspaper_app/models/rest/response/newspaper/NewspaperResponse.dart';
 
 abstract class INewspaperRestService {
-  Future<NewspaperResponse?> getNews(NewspaperRequest newspaperRequest, int index);
+  Future<NewspaperResponse?> getCategoryNews(NewspaperRequest newspaperRequest, int index);
+  Future<NewspaperResponse?> getNews(NewspaperRequest newspaperRequest);
 }

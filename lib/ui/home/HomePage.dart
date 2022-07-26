@@ -1,6 +1,11 @@
+// ignore_for_file: deprecated_member_use
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:newspaper_app/ui/home/HomePageViewModel.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
@@ -15,11 +20,81 @@ class HomePage extends StatelessWidget {
         child: Column(
           children: [
             Expanded(flex: 2, child: _buildTopContainer(width)),
-            Expanded(flex: 7, child: Text('Deneme')),
+            Expanded(flex: 7, child: _buildNewspaperListView()),
           ],
         ),
       ),
     );
+  }
+
+  Widget _buildNewspaperListView() {
+    return Obx(() => Container(
+          height: 100,
+          child: _homePageViewModel.isLoading.value
+              ? ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: _homePageViewModel.newspaperPM.value.titleList!.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Card(
+                      color: Colors.grey.shade200,
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(color: Colors.green.shade300),
+                      ),
+                      child: ListTile(
+                        title: Text(
+                          _homePageViewModel.newspaperPM.value.titleList![index],
+                          style: TextStyle(fontSize: 10),
+                        ),
+                        subtitle: Padding(
+                          padding: const EdgeInsets.only(top: 20),
+                          child: GestureDetector(
+                            onTap: () async {
+                              if (!await launch(_homePageViewModel.newspaperPM.value.urlList![index])) ;
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.open_in_new,
+                                      size: 12,
+                                    ),
+                                    SizedBox(
+                                      width: 1,
+                                    ),
+                                    Text(
+                                      _homePageViewModel.newspaperPM.value.nameList![index],
+                                      style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                                Text(
+                                  _homePageViewModel.newspaperPM.value.publishedList![index],
+                                  style: TextStyle(fontSize: 10),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        trailing: CachedNetworkImage(
+                          width: 75,
+                          height: 75,
+                          imageUrl: _homePageViewModel.newspaperPM.value.imageList![index],
+                          fit: BoxFit.cover,
+                          placeholder: (context, url) => CircularProgressIndicator(), //Todo lottie eklenecek.
+                          errorWidget: (context, url, error) => Container(height: 75, width: 75, child: Image.asset("assets/images/img_bulunamadi.jpg", fit: BoxFit.contain)),
+                        ),
+                      ),
+                    );
+                  })
+              : Center(
+                  child: Lottie.asset(
+                    'assets/lottie/loading_animation.json',
+                    repeat: false,
+                  ),
+                ),
+        ));
   }
 
   Widget _buildTopContainer(double width) {
@@ -65,7 +140,7 @@ class HomePage extends StatelessWidget {
       () => GestureDetector(
         onTap: () {
           _homePageViewModel.categoryIndex.value = index;
-          //Servise gidilip refresh edilecek kısım
+          _homePageViewModel.fetchIndexNews(index);
         },
         child: Row(
           children: [
