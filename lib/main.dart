@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'ui/splash/SplashPage.dart';
 import 'utils/servicelocator/ServiceLocator.dart';
 
@@ -10,6 +8,10 @@ GlobalKey<NavigatorState> mainNavigatorKey = GlobalKey();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  FlutterError.onError = (details) {
+    debugPrint('crach => ' + details.toString());
+  };
 
   ServiceLocator().init();
   runApp(MyApp());

@@ -1,10 +1,14 @@
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: deprecated_member_use, must_be_immutable
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
+import 'package:newspaper_app/ui/components/CustomLottie.dart';
 import 'package:newspaper_app/ui/home/HomePageViewModel.dart';
+import 'package:newspaper_app/utils/theme/CustomTextTheme.dart';
+import 'package:newspaper_app/utils/theme/colors/ColorSchemeLight.dart';
+import 'package:newspaper_app/utils/theme/container/CustomContainer.dart';
+import 'package:newspaper_app/utils/theme/padding/CustomPadding.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatelessWidget {
@@ -20,7 +24,7 @@ class HomePage extends StatelessWidget {
         child: Column(
           children: [
             Expanded(flex: 2, child: _buildTopContainer(width)),
-            Expanded(flex: 7, child: _buildNewspaperListView()),
+            Expanded(flex: 9, child: _buildNewspaperListView()),
           ],
         ),
       ),
@@ -29,24 +33,26 @@ class HomePage extends StatelessWidget {
 
   Widget _buildNewspaperListView() {
     return Obx(() => Container(
-          height: 100,
           child: _homePageViewModel.isLoading.value
-              ? ListView.builder(
+              ? ListView.separated(
                   shrinkWrap: true,
                   itemCount: _homePageViewModel.newspaperPM.value.titleList!.length,
+                  separatorBuilder: (BuildContext context, int index) {
+                    return Divider(
+                      color: ColorSchemeLight.instance.dusk40Color,
+                    );
+                  },
                   itemBuilder: (BuildContext context, int index) {
                     return Card(
+                      elevation: 5,
                       color: Colors.grey.shade200,
-                      shape: RoundedRectangleBorder(
-                        side: BorderSide(color: Colors.green.shade300),
-                      ),
                       child: ListTile(
                         title: Text(
                           _homePageViewModel.newspaperPM.value.titleList![index],
-                          style: TextStyle(fontSize: 10),
+                          style: CustomTextTheme.instance.cardTitleText,
                         ),
                         subtitle: Padding(
-                          padding: const EdgeInsets.only(top: 20),
+                          padding: CustomPadding.instance.subtitleTopPadding,
                           child: GestureDetector(
                             onTap: () async {
                               if (!await launch(_homePageViewModel.newspaperPM.value.urlList![index])) ;
@@ -65,35 +71,34 @@ class HomePage extends StatelessWidget {
                                     ),
                                     Text(
                                       _homePageViewModel.newspaperPM.value.nameList![index],
-                                      style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+                                      style: CustomTextTheme.instance.cardSubtitleText,
                                     ),
                                   ],
                                 ),
                                 Text(
                                   _homePageViewModel.newspaperPM.value.publishedList![index],
-                                  style: TextStyle(fontSize: 10),
+                                  style: CustomTextTheme.instance.cardSubtitleText.copyWith(fontWeight: FontWeight.w300),
                                 )
                               ],
                             ),
                           ),
                         ),
                         trailing: CachedNetworkImage(
-                          width: 75,
-                          height: 75,
+                          width: CustomContainer.instance.cacheNetworkImageWidth,
+                          height: CustomContainer.instance.cacheNetworkImageHeight,
                           imageUrl: _homePageViewModel.newspaperPM.value.imageList![index],
                           fit: BoxFit.cover,
-                          placeholder: (context, url) => CircularProgressIndicator(), //Todo lottie eklenecek.
-                          errorWidget: (context, url, error) => Container(height: 75, width: 75, child: Image.asset("assets/images/img_bulunamadi.jpg", fit: BoxFit.contain)),
+                          placeholder: (context, url) => CustomLottie(lottieUrl: 'assets/lottie/loading-animation.json'),
+                          errorWidget: (context, url, error) =>
+                              Container(height: CustomContainer.instance.cacheNetworkImageHeight, width: CustomContainer.instance.cacheNetworkImageWidth, child: Image.asset("assets/images/img_bulunamadi.png", fit: BoxFit.contain)),
                         ),
                       ),
                     );
                   })
               : Center(
-                  child: Lottie.asset(
-                    'assets/lottie/loading_animation.json',
-                    repeat: false,
-                  ),
-                ),
+                  child: CustomLottie(
+                  lottieUrl: 'assets/lottie/loading_animation.json',
+                )),
         ));
   }
 
@@ -103,10 +108,10 @@ class HomePage extends StatelessWidget {
       decoration: BoxDecoration(
           color: Colors.blueGrey.shade100,
           borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(20),
+            bottomLeft: CustomPadding.instance.topContainerLeftRadiusCircular,
           )),
       child: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: CustomPadding.instance.topContainerPadding,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -120,14 +125,14 @@ class HomePage extends StatelessWidget {
 
   Widget _buildCategory() {
     return Container(
-      height: 80,
+      height: CustomContainer.instance.categoryContainerHeight,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         shrinkWrap: false,
         itemCount: _homePageViewModel.categoryList.length,
         itemBuilder: (BuildContext context, int index) {
           return Padding(
-            padding: EdgeInsets.only(top: 5),
+            padding: CustomPadding.instance.topContainerTitleTopPadding,
             child: _buildCategoryList(index),
           );
         },
@@ -147,36 +152,19 @@ class HomePage extends StatelessWidget {
             Column(
               children: [
                 index == 0
-                    ? AnimatedContainer(
-                        duration: Duration(milliseconds: 200),
-                        width: 50,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          border: _homePageViewModel.categoryIndex.value == index ? Border.all(color: Colors.green, width: 2) : Border.all(color: Colors.white),
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
+                    ? _buildAnimatedContainer(
+                        index,
+                        Icon(
                           Icons.wifi_tethering,
                           color: Colors.white,
                           size: 40,
                         ),
                       )
-                    : AnimatedContainer(
-                        duration: Duration(milliseconds: 200),
-                        width: 50,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          border: _homePageViewModel.categoryIndex.value == index ? Border.all(color: Colors.green, width: 2) : Border.all(color: Colors.white),
-                          shape: BoxShape.circle,
-                          image: DecorationImage(image: AssetImage(_homePageViewModel.categoryList[index].image), fit: BoxFit.fill),
-                        ),
-                      ),
+                    : _buildAnimatedContainer(index, null),
                 SizedBox(
                   height: 5,
                 ),
-                Text(
-                  _homePageViewModel.categoryList[index].title,
-                )
+                Text(_homePageViewModel.categoryList[index].title, style: _homePageViewModel.categoryIndex.value == index ? CustomTextTheme.instance.boldSubtitleText.copyWith(fontWeight: FontWeight.bold) : CustomTextTheme.instance.boldSubtitleText)
               ],
             ),
             SizedBox(
@@ -188,14 +176,42 @@ class HomePage extends StatelessWidget {
     );
   }
 
+  AnimatedContainer _buildAnimatedContainer(int index, Widget? child) {
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 200),
+      width: CustomContainer.instance.animatedContainerWidth,
+      height: CustomContainer.instance.animatedContainerHeight,
+      decoration: BoxDecoration(
+        border: _homePageViewModel.categoryIndex.value == index ? Border.all(color: Colors.green, width: 2) : Border.all(color: Colors.white),
+        shape: BoxShape.circle,
+        image: DecorationImage(
+            image: AssetImage(_homePageViewModel.categoryList[index].image),
+            fit: BoxFit.fill,
+            onError: (Object? exception, StackTrace? stackTrace) {
+              Image.asset(
+                "assets/images/img_bulunamadi.png",
+                fit: BoxFit.contain,
+              );
+            }),
+      ),
+      child: child,
+    );
+  }
+
   Widget _buildTitleAndDate() {
     String _title = 'Haberler';
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(_title),
+        Text(
+          _title,
+          style: CustomTextTheme.instance.boldTopTitleText,
+        ),
         SizedBox(height: 5),
-        Text(_homePageViewModel.getDateTime()),
+        Text(
+          _homePageViewModel.getDateTime(),
+          style: CustomTextTheme.instance.boldSubtitleText,
+        ),
       ],
     );
   }
