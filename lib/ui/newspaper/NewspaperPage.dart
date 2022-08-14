@@ -4,13 +4,17 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'dart:ui' as ui;
 import 'package:newspaper_app/ui/components/CustomLottie.dart';
 import 'package:newspaper_app/ui/newspaper/NewspaperPageViewModel.dart';
+import 'package:newspaper_app/utils/popups/CustomSnackbar.dart';
 import 'package:newspaper_app/utils/theme/CustomTextTheme.dart';
-import 'package:newspaper_app/utils/theme/colors/ColorSchemeLight.dart';
 import 'package:newspaper_app/utils/theme/container/CustomContainer.dart';
 import 'package:newspaper_app/utils/theme/padding/CustomPadding.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../utils/popups/SnackbarType.dart';
+import '../../utils/theme/colors/ColorSchemeLight.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
@@ -20,21 +24,26 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     _newspaperPageViewModel = Get.put(NewspaperPageViewModel());
     double width = MediaQuery.of(context).size.width;
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(flex: 2, child: _buildTopContainer(width)),
-            Expanded(flex: 9, child: _buildNewspaperListView()),
-          ],
+    return Obx(
+      () => Directionality(
+        textDirection: _newspaperPageViewModel.countryCode!.value == 'ae' ? ui.TextDirection.rtl : ui.TextDirection.ltr,
+        child: Scaffold(
+          body: SafeArea(
+            child: Column(
+              children: [
+                Expanded(flex: 2, child: _buildTopContainer(width)),
+                Expanded(flex: 9, child: _buildNewspaperListView()),
+              ],
+            ),
+          ),
+          floatingActionButton: FloatingActionButton(
+              backgroundColor: Colors.green.shade300,
+              onPressed: () {
+                _buildModalBottomSheet(context);
+              },
+              child: Icon(Icons.map)),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.green.shade300,
-          onPressed: () {
-            _buildModalBottomSheet(context);
-          },
-          child: Icon(Icons.map)),
     );
   }
 
@@ -42,21 +51,26 @@ class HomePage extends StatelessWidget {
     return showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return Container(
-          height: 100,
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _buildCountryWidget(context),
-                ElevatedButton(
-                    onPressed: () {
-                      _newspaperPageViewModel.getCountry();
-                      Get.back();
-                    },
-                    child: Text('Kapat'))
-              ],
+        return Obx(
+          () => Directionality(
+            textDirection: _newspaperPageViewModel.countryCode!.value == 'ae' ? ui.TextDirection.rtl : ui.TextDirection.ltr,
+            child: Container(
+              height: 100,
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _buildCountryWidget(context),
+                    ElevatedButton(
+                        onPressed: () {
+                          _newspaperPageViewModel.getCountry();
+                          Get.back();
+                        },
+                        child: Text('Kapat'))
+                  ],
+                ),
+              ),
             ),
           ),
         );
@@ -295,14 +309,17 @@ class HomePage extends StatelessWidget {
                 if (value != 0) {
                   _newspaperPageViewModel.countryListId.value = value!;
                   _newspaperPageViewModel.countryCode!.value = _newspaperPageViewModel.countryList.firstWhere((element) => element.id == value).code;
+                  _newspaperPageViewModel.countryName!.value = _newspaperPageViewModel.countryList.firstWhere((element) => element.id == value).country;
                   _newspaperPageViewModel.fetchCountryNews();
                   if (!_newspaperPageViewModel.countryCode!.value.isEmpty) {
                     _newspaperPageViewModel.categoryIndex.value = 0;
                     _newspaperPageViewModel.getCountry();
+
                     Get.back();
                   }
+                  CustomSnackbar.showSnackBar(context, SnackBarType.SUCCESS, _newspaperPageViewModel.countryName!.value + ' Haberleri');
                 } else {
-                  print('Seçim yapılamaz'); //TODO SNACKBAR
+                  CustomSnackbar.showSnackBar(context, SnackBarType.ERROR, 'Ülke Seçimi Yapınız');
                 }
               },
             ),

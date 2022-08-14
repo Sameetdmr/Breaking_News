@@ -14,6 +14,7 @@ class NewspaperPageViewModel extends ViewModelBase {
   List<Category> categoryList = <Category>[];
   List<Country> countryList = <Country>[];
   RxString? countryCode = 'tr'.obs;
+  RxString? countryName = 'Türkiye'.obs;
   RxInt countryListId = 0.obs;
 
   RxBool isLoading = false.obs;

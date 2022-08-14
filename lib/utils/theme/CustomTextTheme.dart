@@ -38,4 +38,11 @@ class CustomTextTheme {
     fontSize: 12.sp,
     color: ColorSchemeLight.instance.blackColor,
   );
+
+  final TextStyle boldSnackbarText = TextStyle(
+    fontWeight: FontWeight.w600,
+    fontStyle: FontStyle.normal,
+    fontSize: 14.sp,
+    color: Colors.white,
+  );
 }
