@@ -75,7 +75,7 @@ class NewspaperPageViewModel extends ViewModelBase {
         fillNewspaperPM(newspaperResponse.article);
       }
     } catch (e) {
-      print(e.toString());
+      exceptionHandlingService.handleException(e);
     }
   }
 
@@ -90,7 +90,7 @@ class NewspaperPageViewModel extends ViewModelBase {
         fillNewspaperPM(newspaperResponse.article);
       }
     } catch (e) {
-      print(e.toString());
+      exceptionHandlingService.handleException(e);
     }
   }
 

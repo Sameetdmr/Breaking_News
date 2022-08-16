@@ -24,6 +24,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     _newspaperPageViewModel = Get.put(NewspaperPageViewModel());
     double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Obx(
       () => Directionality(
         textDirection: _newspaperPageViewModel.countryCode!.value == 'ae' ? ui.TextDirection.rtl : ui.TextDirection.ltr,
@@ -31,8 +32,8 @@ class HomePage extends StatelessWidget {
           body: SafeArea(
             child: Column(
               children: [
-                Expanded(flex: 2, child: _buildTopContainer(width)),
-                Expanded(flex: 9, child: _buildNewspaperListView()),
+                Expanded(flex: height ~/ 0.8, child: _buildTopContainer(width)),
+                Expanded(flex: height ~/ 0.2, child: _buildNewspaperListView()),
               ],
             ),
           ),
@@ -55,7 +56,7 @@ class HomePage extends StatelessWidget {
           () => Directionality(
             textDirection: _newspaperPageViewModel.countryCode!.value == 'ae' ? ui.TextDirection.rtl : ui.TextDirection.ltr,
             child: Container(
-              height: 100,
+              height: MediaQuery.of(context).size.height / 7,
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Row(
@@ -81,67 +82,75 @@ class HomePage extends StatelessWidget {
   Widget _buildNewspaperListView() {
     return Obx(() => Container(
           child: _newspaperPageViewModel.isLoading.value
-              ? ListView.separated(
-                  shrinkWrap: true,
-                  itemCount: _newspaperPageViewModel.newspaperPM.value.titleList!.length,
-                  separatorBuilder: (BuildContext context, int index) {
-                    return Divider(
-                      color: ColorSchemeLight.instance.dusk40Color,
-                    );
+              ? RefreshIndicator(
+                  color: Colors.green,
+                  onRefresh: () async {
+                    await Future.delayed(Duration(seconds: 2));
+                    _newspaperPageViewModel.newspaperPM.refresh();
+                    return;
                   },
-                  itemBuilder: (BuildContext context, int index) {
-                    return Card(
-                      elevation: 5,
-                      color: Colors.grey.shade200,
-                      child: ListTile(
-                        title: Text(
-                          _newspaperPageViewModel.newspaperPM.value.titleList![index],
-                          style: CustomTextTheme.instance.cardTitleText,
-                        ),
-                        subtitle: Padding(
-                          padding: CustomPadding.instance.subtitleTopPadding,
-                          child: GestureDetector(
-                            onTap: () async {
-                              if (!await launch(_newspaperPageViewModel.newspaperPM.value.urlList![index])) ;
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
+                  child: ListView.separated(
+                      shrinkWrap: true,
+                      itemCount: _newspaperPageViewModel.newspaperPM.value.titleList!.length,
+                      separatorBuilder: (BuildContext context, int index) {
+                        return Divider(
+                          color: ColorSchemeLight.instance.dusk40Color,
+                        );
+                      },
+                      itemBuilder: (BuildContext context, int index) {
+                        return Card(
+                          elevation: 5,
+                          color: Colors.grey.shade200,
+                          child: ListTile(
+                            title: Text(
+                              _newspaperPageViewModel.newspaperPM.value.titleList![index],
+                              style: CustomTextTheme.instance.cardTitleText,
+                            ),
+                            subtitle: Padding(
+                              padding: CustomPadding.instance.subtitleTopPadding,
+                              child: GestureDetector(
+                                onTap: () async {
+                                  if (!await launch(_newspaperPageViewModel.newspaperPM.value.urlList![index])) ;
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Icon(
-                                      Icons.open_in_new,
-                                      size: 12,
-                                    ),
-                                    SizedBox(
-                                      width: 1,
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.open_in_new,
+                                          size: 12,
+                                        ),
+                                        SizedBox(
+                                          width: 1,
+                                        ),
+                                        Text(
+                                          _newspaperPageViewModel.newspaperPM.value.nameList![index],
+                                          style: CustomTextTheme.instance.cardSubtitleText,
+                                        ),
+                                      ],
                                     ),
                                     Text(
-                                      _newspaperPageViewModel.newspaperPM.value.nameList![index],
-                                      style: CustomTextTheme.instance.cardSubtitleText,
-                                    ),
+                                      _newspaperPageViewModel.newspaperPM.value.publishedList![index],
+                                      style: CustomTextTheme.instance.cardSubtitleText.copyWith(fontWeight: FontWeight.w300),
+                                    )
                                   ],
                                 ),
-                                Text(
-                                  _newspaperPageViewModel.newspaperPM.value.publishedList![index],
-                                  style: CustomTextTheme.instance.cardSubtitleText.copyWith(fontWeight: FontWeight.w300),
-                                )
-                              ],
+                              ),
+                            ),
+                            trailing: CachedNetworkImage(
+                              width: CustomContainer.instance.cacheNetworkImageWidth,
+                              height: CustomContainer.instance.cacheNetworkImageHeight,
+                              imageUrl: _newspaperPageViewModel.newspaperPM.value.imageList![index],
+                              fit: BoxFit.cover,
+                              placeholder: (context, url) => CustomLottie(lottieUrl: 'assets/lottie/loading-animation.json'),
+                              errorWidget: (context, url, error) =>
+                                  Container(height: CustomContainer.instance.cacheNetworkImageHeight, width: CustomContainer.instance.cacheNetworkImageWidth, child: Image.asset("assets/images/img_bulunamadi.png", fit: BoxFit.contain)),
                             ),
                           ),
-                        ),
-                        trailing: CachedNetworkImage(
-                          width: CustomContainer.instance.cacheNetworkImageWidth,
-                          height: CustomContainer.instance.cacheNetworkImageHeight,
-                          imageUrl: _newspaperPageViewModel.newspaperPM.value.imageList![index],
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) => CustomLottie(lottieUrl: 'assets/lottie/loading-animation.json'),
-                          errorWidget: (context, url, error) =>
-                              Container(height: CustomContainer.instance.cacheNetworkImageHeight, width: CustomContainer.instance.cacheNetworkImageWidth, child: Image.asset("assets/images/img_bulunamadi.png", fit: BoxFit.contain)),
-                        ),
-                      ),
-                    );
-                  })
+                        );
+                      }),
+                )
               : Center(
                   child: CustomLottie(
                   lottieUrl: 'assets/lottie/loading_animation.json',
@@ -267,7 +276,7 @@ class HomePage extends StatelessWidget {
   Widget _buildCountryWidget(BuildContext context) {
     return Obx(() => Container(
           width: MediaQuery.of(context).size.width / 2,
-          height: MediaQuery.of(context).size.height / 13,
+          height: MediaQuery.of(context).size.height / 15,
           decoration: BoxDecoration(
             color: Colors.grey.shade200,
             border: Border.all(color: Color(0xff0037AE)),
@@ -284,6 +293,7 @@ class HomePage extends StatelessWidget {
                 prefixIcon: Icon(
                   Icons.location_on,
                   color: Colors.red,
+                  size: 0.03.sh,
                 ),
               ),
               items: _newspaperPageViewModel.countryList
@@ -293,11 +303,13 @@ class HomePage extends StatelessWidget {
                       child: Wrap(
                         crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
-                          Text(
-                            item.country,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 10.0.sp,
+                          Center(
+                            child: Text(
+                              item.country,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 10.0.sp,
+                              ),
                             ),
                           ),
                         ],

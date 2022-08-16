@@ -33,9 +33,10 @@ class CustomTextTheme {
   );
 
   final TextStyle cardSubtitleText = TextStyle(
+    overflow: TextOverflow.ellipsis,
     fontWeight: FontWeight.bold,
     fontStyle: FontStyle.normal,
-    fontSize: 12.sp,
+    fontSize: 8.sp,
     color: ColorSchemeLight.instance.blackColor,
   );
 

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "345318212294",
+    "project_id": "newspaperapp-b3816",
+    "storage_bucket": "newspaperapp-b3816.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345318212294:android:4526cb9d63ab78f2ba0dc7",
+        "android_client_info": {
+          "package_name": "com.example.newspaper_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "345318212294-f2et0fq7c7rp1ht9b5eor6p8250ijrcq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.newspaper_app",
+            "certificate_hash": "7a9da6be1af5a7a4aaf87200f2c5e47b584f8a5a"
+          }
+        },
+        {
+          "client_id": "345318212294-r5bt15fc4qo7ijqr2dnmk8ghogrh0aeg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtS1hLPRbZJFUz0uhJ_ssXWlGfQ9mH5ao"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "345318212294-r5bt15fc4qo7ijqr2dnmk8ghogrh0aeg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
