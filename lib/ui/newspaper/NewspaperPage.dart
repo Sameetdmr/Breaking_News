@@ -7,6 +7,8 @@ import 'package:get/get.dart';
 import 'dart:ui' as ui;
 import 'package:newspaper_app/ui/components/CustomLottie.dart';
 import 'package:newspaper_app/ui/newspaper/NewspaperPageViewModel.dart';
+import 'package:newspaper_app/utils/constants/App_Constants.dart';
+import 'package:newspaper_app/utils/navigation/CustomNavigator.dart';
 import 'package:newspaper_app/utils/popups/CustomSnackbar.dart';
 import 'package:newspaper_app/utils/theme/CustomTextTheme.dart';
 import 'package:newspaper_app/utils/theme/container/CustomContainer.dart';
@@ -66,7 +68,7 @@ class HomePage extends StatelessWidget {
                     ElevatedButton(
                         onPressed: () {
                           _newspaperPageViewModel.getCountry();
-                          Get.back();
+                          CustomNavigator().popFromMain();
                         },
                         child: Text('Kapat'))
                   ],
@@ -143,9 +145,9 @@ class HomePage extends StatelessWidget {
                               height: CustomContainer.instance.cacheNetworkImageHeight,
                               imageUrl: _newspaperPageViewModel.newspaperPM.value.imageList![index],
                               fit: BoxFit.cover,
-                              placeholder: (context, url) => CustomLottie(lottieUrl: 'assets/lottie/loading-animation.json'),
+                              placeholder: (context, url) => CustomLottie(lottieUrl: App_Constants.LOTTIE_PATH_IMAGE_LOADING),
                               errorWidget: (context, url, error) =>
-                                  Container(height: CustomContainer.instance.cacheNetworkImageHeight, width: CustomContainer.instance.cacheNetworkImageWidth, child: Image.asset("assets/images/img_bulunamadi.png", fit: BoxFit.contain)),
+                                  Container(height: CustomContainer.instance.cacheNetworkImageHeight, width: CustomContainer.instance.cacheNetworkImageWidth, child: Image.asset(App_Constants.NOT_FOUND_IMAGE, fit: BoxFit.contain)),
                             ),
                           ),
                         );
@@ -153,7 +155,7 @@ class HomePage extends StatelessWidget {
                 )
               : Center(
                   child: CustomLottie(
-                  lottieUrl: 'assets/lottie/loading_animation.json',
+                  lottieUrl: App_Constants.LOTTIE_PATH_SPLASH_LOADING,
                 )),
         ));
   }
@@ -246,7 +248,7 @@ class HomePage extends StatelessWidget {
             fit: BoxFit.fill,
             onError: (Object? exception, StackTrace? stackTrace) {
               Image.asset(
-                "assets/images/img_bulunamadi.png",
+                App_Constants.NOT_FOUND_IMAGE,
                 fit: BoxFit.contain,
               );
             }),
@@ -327,7 +329,7 @@ class HomePage extends StatelessWidget {
                     _newspaperPageViewModel.categoryIndex.value = 0;
                     _newspaperPageViewModel.getCountry();
 
-                    Get.back();
+                    CustomNavigator().popFromMain();
                   }
                   CustomSnackbar.showSnackBar(context, SnackBarType.SUCCESS, _newspaperPageViewModel.countryName!.value + ' Haberleri');
                 } else {

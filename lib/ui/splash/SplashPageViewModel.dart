@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:newspaper_app/ui/ViewModelBase.dart';
 import 'package:newspaper_app/ui/newspaper/NewspaperPage.dart';
+import 'package:newspaper_app/utils/navigation/CustomNavigator.dart';
 
 class SplashPageViewModel extends ViewModelBase {
   SplashPageViewModel() {
@@ -18,6 +18,6 @@ class SplashPageViewModel extends ViewModelBase {
   }
 
   isStart() async {
-    Get.offAll(HomePage());
+    CustomNavigator().pushAndRemoveUntil(HomePage());
   }
 }

@@ -7,6 +7,7 @@ import 'package:newspaper_app/models/domain/newspaper/Country.dart';
 import 'package:newspaper_app/models/presentation/NewspaperPM.dart';
 import 'package:newspaper_app/models/rest/request/newspaper/NewspaperRequest.dart';
 import 'package:newspaper_app/ui/ViewModelBase.dart';
+import 'package:newspaper_app/utils/constants/App_Constants.dart';
 import 'package:newspaper_app/utils/servicelocator/ServiceLocator.dart';
 
 class NewspaperPageViewModel extends ViewModelBase {
@@ -43,23 +44,23 @@ class NewspaperPageViewModel extends ViewModelBase {
   getCategory() {
     categoryList.clear();
     categoryList.addAll({
-      Category('', 'Hepsi'),
-      Category('assets/images/img_is.jpg', 'İş'),
-      Category('assets/images/img_eglence.jpg', 'Eğlence'),
-      Category('assets/images/img_saglik.png', 'Sağlık'),
-      Category('assets/images/img_bilim.png', 'Bilim'),
-      Category('assets/images/img_spor.jpg', 'Spor'),
-      Category('assets/images/img_teknoloji.png', 'Teknoloji'),
+      Category(App_Constants.ALLNEWS_IMG_PATH, App_Constants.CATEGORY_ALLNEWS),
+      Category(App_Constants.BUSINESS_IMG_PATH, App_Constants.CATEGORY_BUSINESS),
+      Category(App_Constants.ENTERTAINMENT_IMG_PATH, App_Constants.CATEGORY_ENTERTAINMENT),
+      Category(App_Constants.HEALTH_IMG_PATH, App_Constants.CATEGORY_HEALTH),
+      Category(App_Constants.SCIENCE_IMG_PATH, App_Constants.CATEGORY_SCIENCE),
+      Category(App_Constants.SPORT_IMG_PATH, App_Constants.CATEGORY_SPORT),
+      Category(App_Constants.TECHNOLOGY_IMG_PATH, App_Constants.CATEGORY_TECHNOLOGY),
     });
   }
 
   getCountry() {
     countryList.clear();
     countryList.addAll({
-      Country(1, 'Birleşik Arap Emirlikleri', 'ae'),
-      Country(2, 'Arjantin', 'ar'),
-      Country(3, 'Avusturya', 'au'),
-      Country(4, 'Türkiye', 'tr'),
+      Country(1, App_Constants.COUNTRY_UNITED_ARAB_EMIRATES, App_Constants.UNITED_ARAB_EMIRATES_KEY),
+      Country(2, App_Constants.COUNTRY_ARGENTINA, App_Constants.ARGENTINA_KEY),
+      Country(3, App_Constants.COUNTRY_AUSTRIA, App_Constants.AUSTRIA_KEY),
+      Country(4, App_Constants.COUNTRY_TURKEY, App_Constants.TURKEY_KEY),
     });
     countryListId.value = countryList.first.id;
   }

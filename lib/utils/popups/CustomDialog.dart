@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:newspaper_app/utils/navigation/CustomNavigator.dart';
 
 class CustomDialog {
   static showLoadingDialog({bool isOpaqueBackground = false}) async {
@@ -10,7 +11,7 @@ class CustomDialog {
 
   static dismiss() {
     if (Get.isDialogOpen!) {
-      Get.back();
+      CustomNavigator().popFromMain();
     }
   }
 }
