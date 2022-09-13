@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 import 'package:newspaper_app/interfaces/common/IExceptionHandlingService.dart';
+import 'package:newspaper_app/interfaces/rest/newspaper/INewspaperRestService.dart';
+import 'package:newspaper_app/rest/newspaper/NewspaperRestService.dart';
 
 import 'package:newspaper_app/services/common/ExceptionHandlingService.dart';
 
@@ -18,5 +20,6 @@ class ServiceLocator {
 
   init() {
     Get.lazyPut<IExceptionHandlingService>(() => ExceptionHandlingService(), fenix: true);
+    Get.lazyPut<INewspaperRestService>(() => NewspaperRestService(), fenix: true);
   }
 }

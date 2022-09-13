@@ -1,16 +1,17 @@
-# newspaper_app
+# Breaking News
 
-A new Flutter project.
+It is a flutter application, You can follow the daily breaking news here.
 
-## Getting Started
+## Tech and Libraries
 
-This project is a starting point for a Flutter application.
+- MVVM Architecture
+- State Management with [GetX](https://pub.dev/packages/get)
+- Animation [Lottie](https://pub.dev/packages/lottie)
+- Analytics & Crashlytics [Firebase](https://firebase.flutter.dev/)
 
-A few resources to get you started if this is your first Flutter project:
+## News API
+- [Newspaper API](https://newsapi.org/) 
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## Previews
+![Deneme](https://user-images.githubusercontent.com/43873156/189997434-d1419d50-812e-4adc-9cd4-935c268ce515.gif)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.

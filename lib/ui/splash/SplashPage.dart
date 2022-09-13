@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
+import 'package:newspaper_app/ui/components/CustomLottie.dart';
 import 'package:newspaper_app/ui/splash/SplashPageViewModel.dart';
 
 class SplashPage extends StatelessWidget {
@@ -13,11 +13,9 @@ class SplashPage extends StatelessWidget {
     SplashPageViewModel splashPageViewModel = Get.put(SplashPageViewModel());
     return Scaffold(
       body: Center(
-        child: Lottie.asset(
-          'assets/lottie/loading_animation.json',
-          repeat: false,
-        ),
-      ),
+          child: CustomLottie(
+        lottieUrl: 'assets/lottie/loading_animation.json',
+      )),
     );
   }
 }
