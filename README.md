@@ -1,3 +1,4 @@
+[![Codemagic build status](https://api.codemagic.io/apps/63286fe597be370af951c1f7/63286fe597be370af951c1f6/status_badge.svg)](https://codemagic.io/apps/63286fe597be370af951c1f7/63286fe597be370af951c1f6/latest_build)
 # Breaking News
 
 It is a flutter application, You can follow the daily breaking news here.
