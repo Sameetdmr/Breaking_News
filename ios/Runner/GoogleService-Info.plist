@@ -3,23 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>345318212294-b2lr6pmq5vdpiek47eg59c2mal5dgcsk.apps.googleusercontent.com</string>
+	<string>1016038715707-c7amguvp8a18q1hv54fj8rjmcf5ovc3r.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.345318212294-b2lr6pmq5vdpiek47eg59c2mal5dgcsk</string>
-	<key>ANDROID_CLIENT_ID</key>
-	<string>345318212294-f2et0fq7c7rp1ht9b5eor6p8250ijrcq.apps.googleusercontent.com</string>
+	<string>com.googleusercontent.apps.1016038715707-c7amguvp8a18q1hv54fj8rjmcf5ovc3r</string>
 	<key>API_KEY</key>
-	<string>AIzaSyA4nCqmBkNEGRaZmccg3b4cOaGBiCWYfjM</string>
+	<string>AIzaSyB9AJmBpEyEpvpvbbswtuZUB9-DvI3554s</string>
 	<key>GCM_SENDER_ID</key>
-	<string>345318212294</string>
+	<string>1016038715707</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.example.newspaperApp</string>
 	<key>PROJECT_ID</key>
-	<string>newspaperapp-b3816</string>
+	<string>mobilenewspaperapp</string>
 	<key>STORAGE_BUCKET</key>
-	<string>newspaperapp-b3816.appspot.com</string>
+	<string>mobilenewspaperapp.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:345318212294:ios:3f02c04215bb8e16ba0dc7</string>
+	<string>1:1016038715707:ios:66462de48e73fc2820c71e</string>
 </dict>
 </plist>
