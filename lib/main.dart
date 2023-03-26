@@ -1,8 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'firebase_options.dart';
 import 'ui/splash/SplashPage.dart';
 import 'utils/servicelocator/ServiceLocator.dart';
 
@@ -11,13 +12,21 @@ GlobalKey<NavigatorState> mainNavigatorKey = GlobalKey();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp();
-/*
-  FlutterError.onError = (FlutterErrorDetails details) {
-    FirebaseCrashlytics.instance.log(details.toString());
-    FirebaseCrashlytics.instance.crash(); // fatal
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  FlutterError.onError = (FlutterErrorDetails details) async {
+    try {
+      FirebaseCrashlytics.instance.setCustomKey('Error', details.exception.toString());
+      FirebaseCrashlytics.instance.setCustomKey('Details', details.toString());
+      FirebaseCrashlytics.instance.setCustomKey('StackTrace', StackTrace.current.toString());
+      FirebaseCrashlytics.instance.crash();
+    } catch (ex) {
+      FirebaseCrashlytics.instance.log(details.exception.toString() + ' / ' + details.toString() + " - " + StackTrace.current.toString());
+      FirebaseCrashlytics.instance.crash();
+    }
   };
-  */
 
   ServiceLocator().init();
   runApp(MyApp());
@@ -28,12 +37,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     return ScreenUtilInit(
       minTextAdapt: true,
       builder: (BuildContext context, Widget? child) {
         return GetMaterialApp(
-          title: 'Breaking News',
+          title: 'Breaking News', //TODO APP NAME
           debugShowCheckedModeBanner: false,
           themeMode: ThemeMode.system,
           home: SplashPage(),

@@ -10,7 +10,7 @@ class CustomContainer {
   CustomContainer._init();
 
   final double categoryContainerHeight = 0.12.sh;
-  final double animatedContainerHeight = 0.08.sh;
+  final double animatedContainerHeight = 0.07.sh;
   final double animatedContainerWidth = 0.12.sw;
   final double cacheNetworkImageHeight = 0.12.sh;
   final double cacheNetworkImageWidth = 0.20.sw;

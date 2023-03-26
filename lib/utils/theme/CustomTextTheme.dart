@@ -26,7 +26,7 @@ class CustomTextTheme {
   );
 
   final TextStyle cardTitleText = TextStyle(
-    fontWeight: FontWeight.w300,
+    fontWeight: FontWeight.bold,
     fontStyle: FontStyle.normal,
     fontSize: 14.sp,
     color: ColorSchemeLight.instance.blackColor,
@@ -36,7 +36,7 @@ class CustomTextTheme {
     overflow: TextOverflow.ellipsis,
     fontWeight: FontWeight.bold,
     fontStyle: FontStyle.normal,
-    fontSize: 8.sp,
+    fontSize: 10.sp,
     color: ColorSchemeLight.instance.blackColor,
   );
 

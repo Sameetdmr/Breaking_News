@@ -8,7 +8,7 @@ class CustomLottie extends StatelessWidget {
   Widget build(BuildContext context) {
     return Lottie.asset(
       lottieUrl,
-      repeat: false,
+      repeat: true,
     );
   }
 }
