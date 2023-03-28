@@ -1,4 +1,7 @@
 [![Codemagic build status](https://api.codemagic.io/apps/63286fe597be370af951c1f7/63286fe597be370af951c1f6/status_badge.svg)](https://codemagic.io/apps/63286fe597be370af951c1f7/63286fe597be370af951c1f6/latest_build)
+
+![image](https://user-images.githubusercontent.com/43873156/228368586-38039387-05b5-40a4-944e-cf52dc5e1f70.png)
+
 # Breaking News
 
 Son dakika haberlerini takip etmek için kullanabileceğiniz basit bir haber uygulamasıdır. Bu uygulama, kullanıcılara güncel haber başlıklarını sunar ve daha fazla bilgi edinmek istedikleri haberlere kolayca erişim sağlar.
@@ -14,7 +17,7 @@ Son dakika haberlerini takip etmek için kullanabileceğiniz basit bir haber uyg
 
 Daha sonra aşağıdaki adımları takip edebilirsiniz:
 
-- Bu repo'yu klonlayın veya indirin.
+- ```git clone https://github.com/Sameetdmr/Breaking_News.git```
 - Komut satırında, Breaking_News dizinine gidin.
 - ```flutter packages get``` komutunu kullanarak bağımlılıkları yükleyin.
 - ```flutter run``` komutunu kullanarak uygulamayı başlatın.
