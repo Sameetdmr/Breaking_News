@@ -1,7 +1,25 @@
 [![Codemagic build status](https://api.codemagic.io/apps/63286fe597be370af951c1f7/63286fe597be370af951c1f6/status_badge.svg)](https://codemagic.io/apps/63286fe597be370af951c1f7/63286fe597be370af951c1f6/latest_build)
 # Breaking News
 
-It is a flutter application, You can follow the daily breaking news here.
+Son dakika haberlerini takip etmek için kullanabileceğiniz basit bir haber uygulamasıdır. Bu uygulama, kullanıcılara güncel haber başlıklarını sunar ve daha fazla bilgi edinmek istedikleri haberlere kolayca erişim sağlar.
+
+## Features
+- Güncel haber başlıklarını görüntüleme
+- Haberlere ayrıntılı bakma
+- Farklı haber kategorileri arasında gezinme
+
+## Setup
+
+- Bu uygulamayı kullanmak için öncelikle bilgisayarınızda Flutter kurulu olması gerekiyor. Eğer Flutter henüz kurulu değilse, [Flutter Kurulum](https://docs.flutter.dev/get-started/install) sayfasındaki adımları takip edebilirsiniz.
+
+Daha sonra aşağıdaki adımları takip edebilirsiniz:
+
+- Bu repo'yu klonlayın veya indirin.
+- Komut satırında, Breaking_News dizinine gidin.
+- ```flutter packages get``` komutunu kullanarak bağımlılıkları yükleyin.
+- ```flutter run``` komutunu kullanarak uygulamayı başlatın.
+
+
 
 ## Tech and Libraries
 
@@ -21,3 +39,5 @@ It is a flutter application, You can follow the daily breaking news here.
 
 
 
+## Contribute
+- Bu projeye katkıda bulunmak isterseniz, lütfen bir Pull Request gönderin. Herhangi bir sorunuz varsa veya bir öneriniz varsa, lütfen bir konu açın.
