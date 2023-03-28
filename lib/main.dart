@@ -1,8 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:newspaper_app/utils/constants/App_Constants.dart';
 import 'firebase_options.dart';
 import 'ui/splash/SplashPage.dart';
 import 'utils/servicelocator/ServiceLocator.dart';
@@ -29,6 +31,7 @@ void main() async {
   };
 
   ServiceLocator().init();
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: Colors.black));
   runApp(MyApp());
 }
 
@@ -41,7 +44,7 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       builder: (BuildContext context, Widget? child) {
         return GetMaterialApp(
-          title: 'Breaking News', //TODO APP NAME
+          title: App_Constants.appName,
           debugShowCheckedModeBanner: false,
           themeMode: ThemeMode.system,
           home: SplashPage(),
