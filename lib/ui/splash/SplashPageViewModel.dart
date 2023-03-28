@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:newspaper_app/ui/ViewModelBase.dart';
 import 'package:newspaper_app/ui/newspaper/NewspaperPage.dart';
+import 'package:newspaper_app/utils/constants/DurationConstants.dart';
 import 'package:newspaper_app/utils/navigation/CustomNavigator.dart';
 
 class SplashPageViewModel extends ViewModelBase {
@@ -10,7 +11,7 @@ class SplashPageViewModel extends ViewModelBase {
 
   initPage() async {
     try {
-      await Future.delayed(const Duration(seconds: 2));
+      await Future.delayed(DurationConstants.normalDuration);
       await isStart();
     } catch (ex) {
       debugPrint(ex.toString());

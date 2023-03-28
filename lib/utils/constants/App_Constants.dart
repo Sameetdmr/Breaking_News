@@ -7,6 +7,9 @@ class App_Constants {
 
   App_Constants._init();
 
+  //App
+  static const appName = 'Breaking News';
+
   //Category Lottie Constants
   static const ALLNEWS_LOTTIE_PATH = "";
   static const BUSINESS_LOTTIE_PATH = "assets/lottie/lottie_business.json";
