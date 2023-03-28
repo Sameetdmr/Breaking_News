@@ -4,7 +4,6 @@ import 'package:newspaper_app/interfaces/rest/newspaper/INewspaperRestService.da
 import 'package:newspaper_app/models/domain/newspaper/Article.dart';
 import 'package:newspaper_app/models/domain/newspaper/Category.dart';
 import 'package:newspaper_app/models/presentation/NewspaperPM.dart';
-import 'package:newspaper_app/models/rest/request/newspaper/NewspaperRequest.dart';
 import 'package:newspaper_app/ui/ViewModelBase.dart';
 import 'package:newspaper_app/utils/constants/App_Constants.dart';
 import 'package:newspaper_app/utils/servicelocator/ServiceLocator.dart';
@@ -12,8 +11,6 @@ import 'package:newspaper_app/utils/servicelocator/ServiceLocator.dart';
 class NewspaperPageViewModel extends ViewModelBase {
   RxInt categoryIndex = 0.obs;
   List<Category> categoryList = <Category>[];
-  String? countryCode = 'tr';
-  String? countryName = 'Türkiye';
 
   RxBool isLoading = false.obs;
   late Rx<NewspaperPM> newspaperPM = NewspaperPM().obs;
@@ -46,10 +43,7 @@ class NewspaperPageViewModel extends ViewModelBase {
 
   getCategoryHaberler(int index) async {
     try {
-      NewspaperRequest newspaperRequest = new NewspaperRequest();
-      newspaperRequest.country = countryCode!;
-
-      final newspaperResponse = await _inewspaperRestService.getCategoryNews(newspaperRequest, index);
+      final newspaperResponse = await _inewspaperRestService.getCategoryNews(index);
 
       if (newspaperResponse!.article!.isNotEmpty) {
         fillNewspaperPM(newspaperResponse.article);
@@ -61,10 +55,7 @@ class NewspaperPageViewModel extends ViewModelBase {
 
   getHaberler() async {
     try {
-      NewspaperRequest newspaperRequest = new NewspaperRequest();
-      newspaperRequest.country = countryCode!;
-
-      final newspaperResponse = await _inewspaperRestService.getNews(newspaperRequest);
+      final newspaperResponse = await _inewspaperRestService.getNews();
 
       if (newspaperResponse!.article!.isNotEmpty) {
         fillNewspaperPM(newspaperResponse.article);
