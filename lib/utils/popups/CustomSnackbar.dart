@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:newspaper_app/utils/popups/SnackbarType.dart';
 import 'package:newspaper_app/utils/theme/CustomTextTheme.dart';
 
-class CustomSnackbar {
-  static showSnackBar(BuildContext context, SnackBarType snackBarType, String text) {
+@immutable
+final class CustomSnackbar {
+  const CustomSnackbar._();
+
+  static void showSnackBar(BuildContext context, SnackBarType snackBarType, String text) {
     switch (snackBarType) {
       case SnackBarType.SUCCESS:
-        Flushbar(
+        Flushbar<void>(
           flushbarPosition: FlushbarPosition.TOP,
           messageText: Text(
             text,
@@ -20,7 +23,7 @@ class CustomSnackbar {
         ).show(context);
         return;
       case SnackBarType.ERROR:
-        Flushbar(
+        Flushbar<void>(
           flushbarPosition: FlushbarPosition.TOP,
           messageText: Text(
             text,

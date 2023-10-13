@@ -9,16 +9,16 @@ class SplashPageViewModel extends ViewModelBase {
     initPage();
   }
 
-  initPage() async {
+  Future<void> initPage() async {
     try {
-      await Future.delayed(DurationConstants.normalDuration);
+      await Future<void>.delayed(DurationConstants.normalDuration);
       await isStart();
     } catch (ex) {
       debugPrint(ex.toString());
     }
   }
 
-  isStart() async {
+  Future<void> isStart() async {
     CustomNavigator().pushAndRemoveUntil(HomePage());
   }
 }

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:newspaper_app/utils/theme/colors/ColorSchemeLight.dart';
 
-class CustomTextTheme {
+@immutable
+final class CustomTextTheme {
   static CustomTextTheme? _instance;
 
   static CustomTextTheme get instance {
