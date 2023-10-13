@@ -9,11 +9,11 @@ import '../../firebase_options.dart';
 import '../servicelocator/ServiceLocator.dart';
 
 @immutable
-class ApplicationStart {
+final class ApplicationStart {
   const ApplicationStart._();
   static Future<void> init() async {
     WidgetsFlutterBinding.ensureInitialized();
-    await DeviceUtility.deviceInit();
+    await DeviceUtility.instance.initPackageInfo();
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );

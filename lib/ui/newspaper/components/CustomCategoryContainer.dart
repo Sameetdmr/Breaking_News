@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 part of '../NewspaperPage.dart';
 
 class _buildTopContainer extends StatelessWidget {
@@ -12,19 +14,19 @@ class _buildTopContainer extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildCategory(),
+          BuildCategory(),
         ],
       ),
     );
   }
 }
 
-class _buildCategory extends StatelessWidget {
+class BuildCategory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     NewspaperPageViewModel _newspaperPageViewModel = Get.find();
     return Padding(
-      padding: context.paddingLow,
+      padding: context.padding.normal,
       child: SizedBox(
         height: CustomContainer.instance.categoryContainerHeight,
         child: ListView.builder(
@@ -33,8 +35,8 @@ class _buildCategory extends StatelessWidget {
           itemCount: _newspaperPageViewModel.categoryList.length,
           itemBuilder: (BuildContext context, int index) {
             return Padding(
-              padding: context.onlyTopPaddingLow,
-              child: _buildCategoryList(
+              padding: context.padding.onlyTopLow,
+              child: BuildCategoryList(
                 index: index,
               ),
             );
@@ -45,9 +47,9 @@ class _buildCategory extends StatelessWidget {
   }
 }
 
-class _buildCategoryList extends StatelessWidget {
+class BuildCategoryList extends StatelessWidget {
   int index;
-  _buildCategoryList({
+  BuildCategoryList({
     Key? key,
     required this.index,
   }) : super(key: key);
@@ -56,16 +58,16 @@ class _buildCategoryList extends StatelessWidget {
     NewspaperPageViewModel _newspaperPageViewModel = Get.find();
     return Obx(
       () => GestureDetector(
-        onTap: () {
+        onTap: () async {
           _newspaperPageViewModel.categoryIndex.value = index;
-          _newspaperPageViewModel.fetchIndexNews(index);
+          await _newspaperPageViewModel.fetchIndexNews(index);
         },
         child: Row(
           children: [
             Column(
               children: [
                 index == 0
-                    ? _buildAnimatedContainer(
+                    ? BuildAnimatedContainer(
                         index: index,
                         child: Icon(
                           Icons.wifi_tethering,
@@ -73,16 +75,16 @@ class _buildCategoryList extends StatelessWidget {
                           size: 30,
                         ),
                       )
-                    : _buildAnimatedContainer(index: index, child: null),
+                    : BuildAnimatedContainer(index: index, child: null),
                 Text(
                   _newspaperPageViewModel.categoryList[index].title,
                   style: _newspaperPageViewModel.categoryIndex.value == index
-                      ? context.primaryTextTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold, color: ColorConstants.black)
-                      : context.primaryTextTheme.bodyMedium?.copyWith(color: ColorConstants.black),
+                      ? context.general.primaryTextTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold, color: ColorConstants.black)
+                      : context.general.primaryTextTheme.bodyMedium?.copyWith(color: ColorConstants.black),
                 )
               ],
             ),
-            context.emptySizedWidthBoxNormal,
+            context.sized.emptySizedWidthBoxNormal,
           ],
         ),
       ),
@@ -90,10 +92,10 @@ class _buildCategoryList extends StatelessWidget {
   }
 }
 
-class _buildAnimatedContainer extends StatelessWidget {
+class BuildAnimatedContainer extends StatelessWidget {
   int index;
   Widget? child;
-  _buildAnimatedContainer({Key? key, required this.index, this.child}) : super(key: key);
+  BuildAnimatedContainer({Key? key, required this.index, this.child}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 @immutable
-class ColorConstants {
+final class ColorConstants {
   const ColorConstants._();
   static const Color black = Colors.black;
   static const Color green = Colors.green;

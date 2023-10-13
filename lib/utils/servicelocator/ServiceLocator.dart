@@ -1,11 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:newspaper_app/interfaces/common/IExceptionHandlingService.dart';
-import 'package:newspaper_app/interfaces/rest/newspaper/INewspaperRestService.dart';
 import 'package:newspaper_app/rest/newspaper/NewspaperRestService.dart';
 
 import 'package:newspaper_app/services/common/ExceptionHandlingService.dart';
 
-class ServiceLocator {
+@immutable
+final class ServiceLocator {
   static final ServiceLocator _singleton = ServiceLocator._internal();
 
   ServiceLocator._internal();
@@ -14,11 +14,11 @@ class ServiceLocator {
     return _singleton;
   }
 
-  get<T>() {
+  T get<T>() {
     return Get.find<T>();
   }
 
-  init() {
+  void init() {
     Get.lazyPut<IExceptionHandlingService>(() => ExceptionHandlingService(), fenix: true);
     Get.lazyPut<INewspaperRestService>(() => NewspaperRestService(), fenix: true);
   }

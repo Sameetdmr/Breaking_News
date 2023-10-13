@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ColorSchemeLight {
+@immutable
+final class ColorSchemeLight {
   static ColorSchemeLight? _instance;
 
   static ColorSchemeLight get instance {

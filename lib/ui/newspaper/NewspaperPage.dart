@@ -23,23 +23,25 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _newspaperPageViewModel = Get.put(NewspaperPageViewModel());
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: _buildAppbar(),
-      body: Column(
-        children: [
-          Flexible(flex: 4, child: _buildTopContainer()),
-          Flexible(flex: 1, child: Divider(color: ColorConstants.black)),
-          Flexible(flex: 19, child: _buildNewsPaperListView(newspaperPageViewModel: _newspaperPageViewModel)),
-        ],
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: BuildAppbar(),
+        body: Column(
+          children: [
+            Flexible(flex: 5, child: _buildTopContainer()),
+            Flexible(flex: 1, child: Divider(color: ColorConstants.black)),
+            Flexible(flex: 20, child: BuildNewsPaperListView(newspaperPageViewModel: _newspaperPageViewModel)),
+          ],
+        ),
       ),
     );
   }
 }
 
-class _buildNewsPaperListView extends StatelessWidget {
+class BuildNewsPaperListView extends StatelessWidget {
   NewspaperPageViewModel _newspaperPageViewModel;
-  _buildNewsPaperListView({
+  BuildNewsPaperListView({
     Key? key,
     required NewspaperPageViewModel newspaperPageViewModel,
   })  : _newspaperPageViewModel = newspaperPageViewModel,
@@ -51,15 +53,7 @@ class _buildNewsPaperListView extends StatelessWidget {
           padding: context.paddingLow,
           child: SizedBox(
             child: _newspaperPageViewModel.isLoading.value
-                ? RefreshIndicator(
-                    color: ColorConstants.green,
-                    onRefresh: () async {
-                      await Future.delayed(context.durationSlow);
-                      _newspaperPageViewModel.newspaperPM.refresh();
-                      return;
-                    },
-                    child: _newsListView(newspaperPageViewModel: _newspaperPageViewModel),
-                  )
+                ? NewsListView(newspaperPageViewModel: _newspaperPageViewModel)
                 : Center(
                     child: CustomLottie(
                     lottieUrl: App_Constants.LOTTIE_PATH_SPLASH_LOADING,
@@ -69,8 +63,8 @@ class _buildNewsPaperListView extends StatelessWidget {
   }
 }
 
-class _buildAppbar extends StatelessWidget with PreferredSizeWidget {
-  const _buildAppbar({
+class BuildAppbar extends StatelessWidget implements PreferredSizeWidget {
+  const BuildAppbar({
     Key? key,
   }) : super(key: key);
 
@@ -100,8 +94,8 @@ class _buildAppbar extends StatelessWidget with PreferredSizeWidget {
   Size get preferredSize => Size.fromHeight(50);
 }
 
-class _newsListView extends StatelessWidget {
-  const _newsListView({
+class NewsListView extends StatelessWidget {
+  const NewsListView({
     Key? key,
     required NewspaperPageViewModel newspaperPageViewModel,
   })  : _newspaperPageViewModel = newspaperPageViewModel,

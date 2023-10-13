@@ -1,4 +1,7 @@
-class App_Constants {
+import 'package:flutter/material.dart';
+
+@immutable
+final class App_Constants {
   static App_Constants? _instance;
 
   static App_Constants get instance {

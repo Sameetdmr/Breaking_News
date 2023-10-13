@@ -2,30 +2,35 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:newspaper_app/main.dart';
 
-class CustomNavigator {
+@immutable
+final class CustomNavigator {
   static final CustomNavigator _singleton = CustomNavigator._internal();
   CustomNavigator._internal();
   factory CustomNavigator() {
     return _singleton;
   }
 
-  void pushToMain(Widget widget) {
+  /// Bir sayfayı ana gezintiye ekler.
+  Future<void> pushToMain(Widget widget, {bool replace = false}) async {
     Get.addKey(mainNavigatorKey);
-    Get.to(widget);
+    return Get.to(widget);
   }
 
-  void popFromMain() {
+  /// Ana gezintiden bir sayfayı kaldırır.
+  Future<void> popFromMain() async {
     Get.addKey(mainNavigatorKey);
-    Get.back();
+    return Get.back();
   }
 
-  void pushReplacementFromMain(Widget widget) {
+  /// Ana gezintiden mevcut sayfayı yenisiyle değiştirir.
+  Future<void> pushReplacementFromMain(Widget widget) async {
     Get.addKey(mainNavigatorKey);
-    Get.off(widget);
+    return Get.off(widget);
   }
 
-  void pushAndRemoveUntil(Widget widget) {
+  /// Tüm sayfaları ana gezintiden siler ve yeni bir sayfa ekler.
+  Future<void> pushAndRemoveUntil(Widget widget) async {
     Get.addKey(mainNavigatorKey);
-    Get.offAll(widget);
+    return Get.offAll(widget);
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-class CustomPadding {
+@immutable
+final class CustomPadding {
   static CustomPadding? _instance;
 
   static CustomPadding get instance {

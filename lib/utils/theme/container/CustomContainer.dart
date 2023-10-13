@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class CustomContainer {
+@immutable
+final class CustomContainer {
   static CustomContainer? _instance;
 
   static CustomContainer get instance {

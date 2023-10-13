@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:newspaper_app/interfaces/rest/newspaper/INewspaperRestService.dart';
-import 'package:newspaper_app/models/domain/newspaper/Article.dart';
 import 'package:newspaper_app/models/domain/newspaper/Category.dart';
 import 'package:newspaper_app/models/presentation/NewspaperPM.dart';
+import 'package:newspaper_app/models/rest/response/newspaper/NewspaperResponse.dart';
+import 'package:newspaper_app/rest/newspaper/NewspaperRestService.dart';
 import 'package:newspaper_app/ui/ViewModelBase.dart';
 import 'package:newspaper_app/utils/constants/App_Constants.dart';
 import 'package:newspaper_app/utils/servicelocator/ServiceLocator.dart';
@@ -19,16 +19,16 @@ class NewspaperPageViewModel extends ViewModelBase {
   NewspaperPageViewModel() {
     initPage();
   }
-  initPage() {
+  Future<void> initPage() async {
     try {
       getCategory();
-      getHaberler();
+      await getHaberler();
     } catch (e) {
       throw Exception(e);
     }
   }
 
-  getCategory() {
+  void getCategory() {
     categoryList.clear();
     categoryList.addAll({
       Category(App_Constants.ALLNEWS_LOTTIE_PATH, App_Constants.CATEGORY_ALLNEWS),
@@ -41,46 +41,46 @@ class NewspaperPageViewModel extends ViewModelBase {
     });
   }
 
-  getCategoryHaberler(int index) async {
+  Future<void> getCategoryHaberler(int index) async {
     try {
       final newspaperResponse = await _inewspaperRestService.getCategoryNews(index);
 
-      if (newspaperResponse!.article!.isNotEmpty) {
-        fillNewspaperPM(newspaperResponse.article);
+      if (newspaperResponse!.articles!.isNotEmpty) {
+        fillNewspaperPM(newspaperResponse.articles);
       }
     } catch (e) {
       throw e;
     }
   }
 
-  getHaberler() async {
+  Future<void> getHaberler() async {
     try {
       final newspaperResponse = await _inewspaperRestService.getNews();
 
-      if (newspaperResponse!.article!.isNotEmpty) {
-        fillNewspaperPM(newspaperResponse.article);
+      if (newspaperResponse!.articles!.isNotEmpty) {
+        fillNewspaperPM(newspaperResponse.articles);
       }
     } catch (e) {
       throw e;
     }
   }
 
-  fetchIndexNews(int index) {
+  Future<void> fetchIndexNews(int index) async {
     clearNewspaperPM();
     if (index == 0) {
-      getHaberler();
+      await getHaberler();
     } else {
-      getCategoryHaberler(index);
+      await getCategoryHaberler(index);
     }
   }
 
-  fetchCountryNews() {
+  Future<void> fetchCountryNews() async {
     clearNewspaperPM();
-    getHaberler();
+    await getHaberler();
     refresh();
   }
 
-  fillNewspaperPM(List<Article>? article) {
+  void fillNewspaperPM(List<Articles>? article) {
     if (article != null) {
       for (var i = 0; i < article.length; i++) {
         newspaperPM.value.titleList!.add(article[i].title.toString());
@@ -94,7 +94,7 @@ class NewspaperPageViewModel extends ViewModelBase {
     }
   }
 
-  clearNewspaperPM() {
+  void clearNewspaperPM() {
     newspaperPM.value.titleList!.clear();
     newspaperPM.value.nameList!.clear();
     newspaperPM.value.imageList!.clear();

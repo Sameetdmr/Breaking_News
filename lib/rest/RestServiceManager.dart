@@ -6,7 +6,7 @@ import 'dart:convert';
 class RestServiceManager {
   static const defaultheader = {'Content-Type': 'application/json'};
 
-  static dynamic call(String url, String endpoint, Map<String, String>? requestHeader, RequestType requestType) async {
+  static Future<Map<String, dynamic>> call(String url, String endpoint, Map<String, String>? requestHeader, RequestType requestType) async {
     Map<String, String> header = new Map<String, String>();
     FirebasePerformance performance = FirebasePerformance.instance;
     HttpMetric metric = performance.newHttpMetric(url + endpoint, HttpMethod.Post);
@@ -31,15 +31,17 @@ class RestServiceManager {
 
       switch (response.statusCode) {
         case 200:
-          return jsonDecode(response.body);
+          return jsonDecode(response.body.toString()) as Map<String, dynamic>;
         case 201:
-          return jsonDecode(response.body);
+          return jsonDecode(response.body.toString()) as Map<String, dynamic>;
         case 400:
           throw Exception('Hata');
       }
-      metric.httpResponseCode = response.statusCode;
-      metric.responsePayloadSize = response.contentLength;
+      metric.httpResponseCode = int.tryParse(response.statusCode.toString());
+      metric.responsePayloadSize = int.tryParse(response.contentLength.toString());
       await metric.stop();
     } catch (ex) {}
+
+    return {};
   }
 }
